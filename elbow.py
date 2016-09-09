@@ -1,29 +1,38 @@
 # -*- coding: utf-8 -*-
 __author__ = 'peter'
 
-from bottle import Bottle, run, template, request
-import bottle
-
 import hashlib
-from bt import BTFailure, bdecode, bencode
+from bencodepy import decode, encode
 from dropbox import download_torrent
 
-bottle.debug(mode=True)
-app = Bottle()
+import tornado.ioloop
+import tornado.web
+import json
 
-@app.route('/grease', method="POST")
-def fetch():
-    data = request.json
-    if data:
-        torrent = download_torrent(data['url'])
-        try:
-            metainfo = bdecode(torrent)
-            info = metainfo['info']
-            btih=hashlib.sha1(bencode(info)).hexdigest()
-            dn=metainfo['info']['name']
-            link=template('magnet:?xt=urn:btih:{{btih}}&dn={{dn}}', btih=btih, dn=dn)
-            return {'status': 'OK',  'link': link}
-        except BTFailure:
-            return {'status': 'ERROR', 'error': 'not a valid .torrent file'}
+class GreaseHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.write("Hello, world")
 
-app.run(host='localhost', port=8080)
+    def post(self):
+        data = json.loads(self.request.body.decode('utf-8'))
+        if data:
+            torrent = download_torrent(data['url'])
+            try:
+                metainfo = decode(torrent)
+                info = metainfo[b'info']
+                btih=hashlib.sha1(encode(info)).hexdigest()
+                dn=metainfo[b'info'][b'name']
+                link='magnet:?xt=urn:btih:{btih}&dn={dn}'.format(btih=btih, dn=dn)
+                self.write({'status': 'OK',  'link': link})
+            except :
+                self.write({'status': 'ERROR', 'error': 'not a valid torrent file'})
+
+def make_app():
+    return tornado.web.Application([
+        (r"/grease", GreaseHandler),
+    ])
+
+if __name__ == "__main__":
+    app = make_app()
+    app.listen(8080)
+    tornado.ioloop.IOLoop.current().start()

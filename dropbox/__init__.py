@@ -14,4 +14,4 @@ def download_torrent(url):
 
     # submit form
     response = br.submit(form, page.url)
-    return response._content
+    return response.content
