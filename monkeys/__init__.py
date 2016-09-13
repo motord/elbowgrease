@@ -25,14 +25,19 @@ def download_torrent(url):
 r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 def spawn_torrent(url):
-    torrent = download_torrent(url)
-    dbx=dropbox.Dropbox('JUEnSrL_pnAAAAAAAAAACjwtIHCP7-quP8fVqMwlYeARJpkUqDzpfN5JWQV3d0ps')
-    try:
-        metainfo = decode(torrent)
-        info = metainfo[b'info']
-        btih=hashlib.sha1(encode(info)).hexdigest()
-        dn=metainfo[b'info'][b'name']
-        link='magnet:?xt=urn:btih:{btih}&dn={dn}'.format(btih=btih, dn=dn)
-        return {'status': 'OK',  'link': link}
-    except :
-        return {'status': 'ERROR', 'error': 'not a valid torrent file'}
+    torrent=r.get(url)
+    if torrent:
+        return torrent
+    else:
+        return {'status': 'MISS'}
+        torrent = download_torrent(url)
+        dbx=dropbox.Dropbox('JUEnSrL_pnAAAAAAAAAACjwtIHCP7-quP8fVqMwlYeARJpkUqDzpfN5JWQV3d0ps')
+        try:
+            metainfo = decode(torrent)
+            info = metainfo[b'info']
+            btih=hashlib.sha1(encode(info)).hexdigest()
+            dn=metainfo[b'info'][b'name']
+            magnet='magnet:?xt=urn:btih:{btih}&dn={dn}'.format(btih=btih, dn=dn)
+            return {'status': 'OK',  'magnet': magnet}
+        except :
+            return {'status': 'ERROR', 'error': 'not a valid torrent file'}
