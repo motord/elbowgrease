@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'peter'
 
-import hashlib
-from bencodepy import decode, encode
-from dropbox import download_torrent
+from monkeys import spawn_torrent
 
 import tornado.ioloop
 import tornado.web
@@ -16,16 +14,8 @@ class GreaseHandler(tornado.web.RequestHandler):
     def post(self):
         data = json.loads(self.request.body.decode('utf-8'))
         if data:
-            torrent = download_torrent(data['url'])
-            try:
-                metainfo = decode(torrent)
-                info = metainfo[b'info']
-                btih=hashlib.sha1(encode(info)).hexdigest()
-                dn=metainfo[b'info'][b'name']
-                link='magnet:?xt=urn:btih:{btih}&dn={dn}'.format(btih=btih, dn=dn)
-                self.write({'status': 'OK',  'link': link})
-            except :
-                self.write({'status': 'ERROR', 'error': 'not a valid torrent file'})
+            torrent = spawn_torrent(data['url'])
+            self.write(torrent)
 
 def make_app():
     return tornado.web.Application([
