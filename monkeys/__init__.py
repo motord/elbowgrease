@@ -43,7 +43,7 @@ def spawn_torrent(url):
             dbx = dropbox.Dropbox('JUEnSrL_pnAAAAAAAAAADGNPxjjbk3nYLnatbTN8vvJ01JM8yQIhn-MI5DqW41nR')
             path = '/torrents/%s' % torrent_file
             dbx.files_upload(blob, path)
-            link = dbx.sharing_create_shared_link_with_settings(path)
+            link = dbx.sharing_create_shared_link_with_settings(path).url
             try:
                 metainfo = decode(blob)
                 info = metainfo[b'info']
