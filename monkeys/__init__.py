@@ -41,14 +41,15 @@ def spawn_torrent(url):
             torrent_file = str(match.groups(0)[0]) + '.torrent'
             blob = download_torrent(url)
             dbx = dropbox.Dropbox('JUEnSrL_pnAAAAAAAAAADGNPxjjbk3nYLnatbTN8vvJ01JM8yQIhn-MI5DqW41nR')
-            dbx.files_upload(blob, '/torrents/%s' % torrent_file)
+            path = '/torrents/%s' % torrent_file
+            dbx.files_upload(blob, path)
+            link = dbx.sharing_create_shared_link_with_settings(path)
             try:
                 metainfo = decode(blob)
                 info = metainfo[b'info']
                 btih = hashlib.sha1(encode(info)).hexdigest()
                 dn = metainfo[b'info'][b'name']
                 magnet = 'magnet:?xt=urn:btih:{btih}&dn={dn}'.format(btih=btih, dn=dn)
-                link = ''
                 torrent = {'status': 'OK', 'magnet': magnet, 'torrent': link}
                 # r.set(url, torrent)
                 return torrent
