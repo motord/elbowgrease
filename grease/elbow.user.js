@@ -18,6 +18,6 @@ var myInit = { method: 'POST',
     cache: 'default' };
 fetch(myRequest,myInit).then(function(response) {
     response.json().then(function(json) {
-        console.info(response);
+        console.info(json);
     });
 })
