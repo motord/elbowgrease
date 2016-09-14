@@ -15,8 +15,7 @@ def lemons():
         soup=BeautifulSoup(r.text, "html.parser")
         tags=soup.find_all('a', target="_blank")
         for tag in tags:
-            print(tag)
-            yield tag
+            yield baseurl+tag.href
 
 
 def harvest():
