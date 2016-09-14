@@ -28,8 +28,7 @@ r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 
 def spawn_torrent(url):
-    r.delete(url)
-    torrent = r.hmget(url)
+    torrent = r.hgetall(url)
     if torrent:
         return torrent
     else:
