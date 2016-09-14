@@ -26,7 +26,7 @@ def harvest():
         tags = soup.find_all('a', target="_blank")
         for tag in tags:
             try:
-                if tag.parent['id'] == 'read_tpc':
+                if tag.parent.attrs['id'] == 'read_tpc':
                     print(baseurl + tag['href'])
                     break
             except KeyError:
