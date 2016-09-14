@@ -25,18 +25,20 @@ def harvest():
         soup = BeautifulSoup(r.text, "html.parser")
         tags = soup.find_all('a', target="_blank")
         for tag in tags:
-            if tag.parent['id'] == 'read_tpc':
-                print(baseurl + tag['href'])
-                break
-
-        #     for juice in juices:
-        #         try:
-        #             juice = Juice(key_name=lemon, image=juice['image'], download=juice['download'])
-        #             juice.put()
-        #         except BadValueError:
-        #             logging.info(juice)
-        #     bucket.append(lemon)
-        # squeezed.put()
+            try:
+                if tag.parent['id'] == 'read_tpc':
+                    print(baseurl + tag['href'])
+                    break
+            except KeyError:
+                pass
+                #     for juice in juices:
+                #         try:
+                #             juice = Juice(key_name=lemon, image=juice['image'], download=juice['download'])
+                #             juice.put()
+                #         except BadValueError:
+                #             logging.info(juice)
+                #     bucket.append(lemon)
+                # squeezed.put()
 
 
 if __name__ == "__main__":
