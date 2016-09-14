@@ -6,7 +6,7 @@
 // @name                Elbow Grease
 // @namespace	        http://v.numag.net/grease/
 // @description	        grab torrents for direct download
-// @include		http://bt.aisex.com/bt/html_data/*
+// @include		http://bt.aisex.com/bt/htm_data/*
 // ==/UserScript==
 
 var elmTopic = document.getElementById('read_tpc');
