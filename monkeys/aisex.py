@@ -21,7 +21,14 @@ def lemons():
 
 def harvest():
     for lemon in lemons():
-        print(lemon)
+        r = requests.get(lemon)
+        soup = BeautifulSoup(r.text, "html.parser")
+        tags = soup.find_all('a', target="_blank")
+        for tag in tags:
+            if tag.parent.id == 'read_tpc':
+                print(baseurl + tag['href'])
+                break
+
         #     for juice in juices:
         #         try:
         #             juice = Juice(key_name=lemon, image=juice['image'], download=juice['download'])
