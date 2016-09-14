@@ -31,7 +31,7 @@ r = redis.StrictRedis(host='localhost', port=6379, db=0)
 def spawn_torrent(url):
     torrent = r.get(url)
     if torrent:
-        return json.loads(torrent)
+        return json.loads(torrent, encoding='utf-8')
     else:
         torrent_url_components = urlparse(url)
         torrent_url_query = torrent_url_components.query
