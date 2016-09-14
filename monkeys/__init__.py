@@ -30,7 +30,7 @@ r = redis.StrictRedis(host='localhost', port=6379, db=0)
 def spawn_torrent(url):
     torrent = r.hgetall(url)
     if torrent:
-        return {'status': torrent['status'], 'magnet': torrent['magnet'], 'torrent': torrent['torrent']}
+        return {'status': torrent.get('status'), 'magnet': torrent.get('magnet'), 'torrent': torrent.get('torrent')}
     else:
         torrent_url_components = urlparse(url)
         torrent_url_query = torrent_url_components.query
