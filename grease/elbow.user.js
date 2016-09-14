@@ -6,10 +6,18 @@
 // @name                Elbow Grease
 // @namespace	        http://v.numag.net/grease/
 // @description	        grab torrents for direct download
-// @include		http://bt.aisex.com/bt/*
+// @include		http://bt.aisex.com/bt/html_data/*
 // ==/UserScript==
 
-var myRequest = new Request('http://v.numag.net/grease', {method: 'POST', body: '{"url":"http://www.jandown.com/link.php?ref=QU8lml7MET"}'});
+var elmTopic = document.getElementById('read_tpc');
+var links=document.evaluate('a',elmTopic, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
+for (var i = links.snapshotLength - 1; i >= 0; i--) {
+    var link = links.snapshotItem(i);
+    if (link.host && link.host == 'www.jandown.com') {
+        var elmTorrent=link;
+    }
+}
+var myRequest = new Request('http://v.numag.net/grease', {method: 'POST', body: '{"url":"'+elmTorrent.href+'"}'});
 var myHeaders = new Headers();
 myHeaders.append('Content-Type', 'application/json');
 var myInit = { method: 'POST',
@@ -18,6 +26,7 @@ var myInit = { method: 'POST',
     cache: 'default' };
 fetch(myRequest,myInit).then(function(response) {
     return response.json().then(function(json) {
-        console.info(json);
+        elmTorrent.href = json.torrent;
+        elmTorrent.textContent = json.torrent;
     });
 })
