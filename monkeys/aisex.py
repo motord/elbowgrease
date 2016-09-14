@@ -25,7 +25,7 @@ def harvest():
         soup = BeautifulSoup(r.text, "html.parser")
         tags = soup.find_all('a', target="_blank")
         for tag in tags:
-            id = tag.parent.get['id']
+            id = tag.parent.get('id')
             if id == 'read_tpc':
                 print(tag['href'])
                 break
