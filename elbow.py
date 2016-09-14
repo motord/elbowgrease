@@ -16,6 +16,7 @@ class GreaseHandler(tornado.web.RequestHandler):
         data = json.loads(self.request.body.decode('utf-8'))
         if data:
             torrent = spawn_torrent(data['url'])
+            self.set_header('Content-Type', 'application/json')
             self.write(torrent)
 
 
