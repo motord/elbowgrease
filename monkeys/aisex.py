@@ -31,7 +31,7 @@ def harvest():
                 pass
             else:
                 spawn(url)
-                break
+            break
 
 
 if __name__ == "__main__":
