@@ -8,7 +8,6 @@ import dropbox
 from bencodepy import decode, encode
 from urllib.parse import urlparse
 import re
-import json
 
 browser = mechanicalsoup.Browser()
 
@@ -31,7 +30,7 @@ r = redis.StrictRedis(host='localhost', port=6379, db=0)
 def spawn_torrent(url):
     torrent = r.hgetall(url)
     if torrent:
-        return json.loads(json.dumps(torrent))
+        return torrent
     else:
         torrent_url_components = urlparse(url)
         torrent_url_query = torrent_url_components.query
@@ -51,7 +50,7 @@ def spawn_torrent(url):
                 info = metainfo[b'info']
                 btih = hashlib.sha1(encode(info)).hexdigest()
                 dn = metainfo[b'info'][b'name']
-                magnet = 'magnet:?xt=urn:btih:{btih}&dn={dn}'.format(btih=btih, dn=dn)
+                magnet = """magnet:?xt=urn:btih:{btih}&dn={dn}""".format(btih=btih, dn=dn)
                 torrent = {'status': 'OK', 'magnet': magnet, 'torrent': link}
                 r.hmset(url, torrent)
                 return torrent
