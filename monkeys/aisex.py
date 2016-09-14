@@ -12,8 +12,8 @@ baseurl = 'http://bt.aisex.com/bt/'
 def lemons():
     aisex = (baseurl + 'thread.php?fid=4&search=&page=' + str(i) for i in range(1, 0, -1))
     for url in aisex:
-        r = requests.get(url)
-        soup = BeautifulSoup(r.text, "html.parser")
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, "html.parser")
         tags = soup.find_all('a', target="_blank")
         for tag in tags:
             if tag.parent.name == 'h3':
@@ -22,8 +22,8 @@ def lemons():
 
 def harvest():
     for lemon in lemons():
-        r = requests.get(lemon)
-        soup = BeautifulSoup(r.text, "html.parser")
+        response = requests.get(lemon)
+        soup = BeautifulSoup(response.text, "html.parser")
         tags = soup.find_all('a', href=re.compile("www.jandown.com"))
         for tag in tags:
             url = tag['href']
