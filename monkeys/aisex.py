@@ -4,6 +4,7 @@ __author__ = 'peter'
 import requests
 from bs4 import BeautifulSoup
 from cheekpouch import spawn
+import re
 
 baseurl = 'http://bt.aisex.com/bt/'
 
@@ -23,12 +24,10 @@ def harvest():
     for lemon in lemons():
         r = requests.get(lemon)
         soup = BeautifulSoup(r.text, "html.parser")
-        tags = soup.find_all('a', target="_blank")
+        tags = soup.find_all('a', href=re.compile("www.jandown.com"))
         for tag in tags:
-            id = tag.parent.get('id')
-            if id == 'read_tpc':
-                print(tag['href'])
-                break
+            print(tag['href'])
+            break
                 #     for juice in juices:
                 #         try:
                 #             juice = Juice(key_name=lemon, image=juice['image'], download=juice['download'])
