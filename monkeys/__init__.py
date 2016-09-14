@@ -24,13 +24,12 @@ def download_torrent(url):
     return response.content
 
 
-r = redis.StrictRedis(host='localhost', port=6379, db=0)
+r = redis.StrictRedis(host='localhost', port=6379, db=0, decode_responses=True)
 
 
 def spawn_torrent(url):
     torrent = r.hgetall(url)
     if torrent:
-        # return {'status': torrent.get('status'), 'magnet': torrent.get('magnet'), 'torrent': torrent.get('torrent')}
         return torrent
     else:
         torrent_url_components = urlparse(url)
@@ -52,7 +51,7 @@ def spawn_torrent(url):
                 btih = hashlib.sha1(encode(info)).hexdigest()
                 dn = metainfo[b'info'][b'name']
                 magnet = 'magnet:?xt=urn:btih:{btih}&dn={dn}'.format(btih=btih, dn=dn)
-                torrent = {str('status'): 'OK', str('magnet'): magnet, str('torrent'): link}
+                torrent = {'status': 'OK', 'magnet': magnet, 'torrent': link}
                 r.hmset(url, torrent)
                 return torrent
             except:
