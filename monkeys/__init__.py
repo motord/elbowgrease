@@ -28,7 +28,8 @@ r = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 
 def spawn_torrent(url):
-    torrent = r.get(url)
+    r.delete(url)
+    torrent = r.hmget(url)
     if torrent:
         return torrent
     else:
@@ -52,7 +53,7 @@ def spawn_torrent(url):
                 dn = metainfo[b'info'][b'name']
                 magnet = 'magnet:?xt=urn:btih:{btih}&dn={dn}'.format(btih=btih, dn=dn)
                 torrent = {'status': 'OK', 'magnet': magnet, 'torrent': link}
-                r.set(url, torrent)
+                r.hmset(url, torrent)
                 return torrent
             except:
                 torrent = {'status': 'ERROR', 'error': 'not a valid torrent file'}
