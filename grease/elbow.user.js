@@ -17,5 +17,7 @@ var myInit = { method: 'POST',
     mode: 'cors',
     cache: 'default' };
 fetch(myRequest,myInit).then(function(response) {
-    console.info(response);
+    response.json().then(function(json) {
+        console.info(response);
+    });
 })
