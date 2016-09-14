@@ -51,7 +51,7 @@ def spawn_torrent(url):
                 btih = hashlib.sha1(encode(info)).hexdigest()
                 dn = metainfo[b'info'][b'name']
                 magnet = 'magnet:?xt=urn:btih:{btih}&dn={dn}'.format(btih=btih, dn=dn)
-                torrent = {'status': 'OK', 'magnet': magnet, 'torrent': link}
+                torrent = {"status": "OK", "magnet": magnet, "torrent": link}
                 r.hmset(url, torrent)
                 return torrent
             except:
