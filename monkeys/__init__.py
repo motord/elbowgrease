@@ -8,7 +8,6 @@ import dropbox
 from bencodepy import decode, encode
 from urllib.parse import urlparse
 import re
-import json
 
 browser = mechanicalsoup.Browser()
 
@@ -52,7 +51,7 @@ def spawn_torrent(url):
                 btih = hashlib.sha1(encode(info)).hexdigest()
                 dn = metainfo[b'info'][b'name']
                 magnet = 'magnet:?xt=urn:btih:{btih}&dn={dn}'.format(btih=btih, dn=dn)
-                torrent = json.loads(json.dumps({'status': 'OK', 'magnet': magnet, 'torrent': link}))
+                torrent = {b'status': b'OK', b'magnet': magnet, b'torrent': link}
                 r.hmset(url, torrent)
                 return torrent
             except:
