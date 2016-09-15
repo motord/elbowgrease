@@ -5,8 +5,10 @@ import requests
 from bs4 import BeautifulSoup
 from cheekpouch import spawn, r
 import re
+from rq import Queue
 
 baseurl = 'http://bt.aisex.com/bt/'
+q = Queue(connection=r)
 
 
 def lemons():
@@ -30,7 +32,7 @@ def harvest():
             if r.hgetall(url):
                 pass
             else:
-                spawn(url)
+                q.enqueue(spawn, url)
             break
 
 
