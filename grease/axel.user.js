@@ -15,6 +15,7 @@
     elmNewContent.textContent = $x("/html/body/pre/a/@href").slice(1).map(function (element) {
         return 'x256 ' + window.location.href + element.value;
     }).join([separator = '; ']);
-    elmNewContent.setAttribute("style", "color: #F00; font-family: 'Raleway',sans-serif; font-size: 18px; font-weight: 500; line-height: 32px; margin: 0 0 24px; ");
+    elmNewContent.setAttribute("style", "color: #5fba7d; font-family: 'Raleway',sans-serif; font-size: 12px; font-weight: 500; line-height: 16px; margin: 0 0 24px; ");
     document.body.appendChild(elmNewContent);
+    console.log('bingo')
 })();
