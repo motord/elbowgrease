@@ -65,5 +65,5 @@ def record_event(event):
 
     pipe = r.pipeline(True)
     pipe.hmset(event_key, event)
-    pipe.zadd('events', **{id: event['timestamp']})
+    pipe.zadd('events', **{str(id): event['timestamp']})
     pipe.execute()
