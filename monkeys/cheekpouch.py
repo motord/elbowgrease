@@ -60,7 +60,7 @@ def spawn(url):
 def record_event(event):
     id = r.incr('event:id')
     event['id'] = id
-    event['timestamp'] = time.localtime()
+    event['timestamp'] = time.time()
     event_key = 'event:{id}'.format(id=id)
 
     pipe = r.pipeline(True)
