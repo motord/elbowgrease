@@ -8,6 +8,7 @@ import dropbox
 from bencodepy import decode, encode
 from urllib.parse import urlparse
 import re
+import time
 
 browser = mechanicalsoup.Browser()
 
@@ -49,7 +50,20 @@ def spawn(url):
             magnet = 'magnet:?xt=urn:btih:{btih}&dn={dn}'.format(btih=btih, dn=dn)
             torrent = {'status': 'OK', 'magnet': magnet, 'torrent': link}
             r.hmset(url, torrent)
+            record_event({'type': 'aisex.newtorrent'})
             return torrent
         except:
             torrent = {'status': 'ERROR', 'error': 'not a valid torrent file'}
             return torrent
+
+
+def record_event(event):
+    id = r.incr('event:id')
+    event['id'] = id
+    event['timestamp'] = time.localtime()
+    event_key = 'event:{id}'.format(id=id)
+
+    pipe = r.pipeline(True)
+    pipe.hmset(event_key, event)
+    pipe.zadd('events', **{id: event['timestamp']})
+    pipe.execute()
