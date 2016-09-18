@@ -118,12 +118,12 @@ def twentyfour_seven():
 
 def week():
     func=lambda e: datetime.fromtimestamp(float(e)).strftime('%A')
-    return reduce(partial(rollup_by_function(func=func), events_matching_type('aisex.newtorrent'),{}))
+    return reduce(partial(rollup_by_function, func=func), events_matching_type('aisex.newtorrent'),{})
 
 
 def hour():
     func=lambda e: datetime.fromtimestamp(float(e)).strftime('%k')
-    return reduce(partial(rollup_by_function(func=func), events_matching_type('aisex.newtorrent'),{}))
+    return reduce(partial(rollup_by_function, func=func), events_matching_type('aisex.newtorrent'),{})
 
 def rollup_by_function(accum, x, func=None):
     try:
