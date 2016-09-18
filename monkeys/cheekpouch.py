@@ -57,7 +57,7 @@ def events_matching_type(type):
 
 events_matching_type_lua = r.register_script('''
 local events = {}
-local ids = redis.call('ZRANGE', KEYS[1], 0, -1])
+local ids = redis.call('ZRANGE', KEYS[1], 0, -1)
 for i, id in ipairs(ids) do
     local event = redis.call('HMGET', 'event:' .. id, 'type', 'timestamp')
     if event[1]==ARGV[3] then
