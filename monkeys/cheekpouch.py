@@ -9,6 +9,7 @@ from bencodepy import decode, encode
 from urllib.parse import urlparse
 import re
 import time
+from datetime import datetime
 import json
 
 browser = mechanicalsoup.Browser()
@@ -47,9 +48,11 @@ end
 return cjson.encode(events)
 ''')
 
+
 def events_matching_type(type):
     events = events_matching_type_lua(keys=['events'], args=[type])
     return json.loads(events)
+
 
 events_matching_type_lua = r.register_script('''
 local events = {}
@@ -63,6 +66,7 @@ end
 
 return cjson.encode(events)
 ''')
+
 
 def spawn(url):
     torrent_url_components = urlparse(url)
@@ -106,7 +110,9 @@ def record_event(event):
 
 
 def twentyfour_seven():
-    return events_matching_type_during(time.time()-86400*7, time.time(), 'aisex.newtorrent')
+    return map(lambda e: {'x': datetime.fromtimestamp(float(e)).strftime('%F'), \
+                          'y': datetime.fromtimestamp(float(e)).strftime('%R')}, \
+               events_matching_type_during(time.time() - 86400 * 7, time.time(), 'aisex.newtorrent'))
 
 
 def week():
