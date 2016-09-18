@@ -9,6 +9,7 @@ from bencodepy import decode, encode
 from urllib.parse import urlparse
 import re
 import time
+import json
 
 browser = mechanicalsoup.Browser()
 
@@ -27,6 +28,41 @@ def download_torrent(url):
 
 r = redis.StrictRedis(host='localhost', port=6379, db=0, decode_responses=True)
 
+
+def events_matching_type_during(start, end, type):
+    events = events_matching_type_during_lua(keys=['events'], args=[start, end, type])
+    return json.loads(events)
+
+
+events_matching_type_during_lua = r.register_script('''
+local events = {}
+local ids = redis.call('ZRANGEBYSCORE', KEYS[1], ARGV[1], ARGV[2])
+for i, id in ipairs(ids) do
+    local event = redis.call('HMGET', 'event:' .. id, 'type', 'timestamp')
+    if event[1]==ARGV[3] then
+        events[i] = event[2]
+    end
+end
+
+return cjson.encode(events)
+''')
+
+def events_matching_type(type):
+    events = events_matching_type_lua(keys=['events'], args=[type])
+    return json.loads(events)
+
+events_matching_type_lua = r.register_script('''
+local events = {}
+local ids = redis.call('ZRANGE', KEYS[1], 0, -1])
+for i, id in ipairs(ids) do
+    local event = redis.call('HMGET', 'event:' .. id, 'type', 'timestamp')
+    if event[1]==ARGV[3] then
+        events[i] = event[2]
+    end
+end
+
+return cjson.encode(events)
+''')
 
 def spawn(url):
     torrent_url_components = urlparse(url)
@@ -67,3 +103,15 @@ def record_event(event):
     pipe.hmset(event_key, event)
     pipe.zadd('events', **{str(id): event['timestamp']})
     pipe.execute()
+
+
+def twentyfour_seven():
+    events_matching_type_during(time.time()-86400*7, time.time(), 'aisex.newtorrent')
+
+
+def week():
+    events_matching_type('aisex.newtorrent')
+
+
+def hour():
+    events_matching_type('aisex.newtorrent')
