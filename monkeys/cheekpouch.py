@@ -122,7 +122,7 @@ def week():
 
 
 def hour():
-    func=lambda e: datetime.fromtimestamp(float(e)).strftime('%k')
+    func=lambda e: datetime.fromtimestamp(float(e)).strftime('%H')
     return reduce(partial(rollup_by_function, func=func), events_matching_type('aisex.newtorrent'),{})
 
 def rollup_by_function(accum, x, func=None):
