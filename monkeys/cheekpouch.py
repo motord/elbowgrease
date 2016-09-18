@@ -32,8 +32,7 @@ r = redis.StrictRedis(host='localhost', port=6379, db=0, decode_responses=True)
 
 
 def events_matching_type_during(start, end, type):
-    events = events_matching_type_lua(keys=['events'], args=[type])
-    # events = events_matching_type_during_lua(keys=['events'], args=[start, end, type])
+    events = events_matching_type_during_lua(keys=['events'], args=[start, end, type])
     return json.loads(events)
 
 
@@ -127,8 +126,8 @@ def hour():
     return reduce(partial(rollup_by_function, func=func), events_matching_type('aisex.newtorrent'),{})
 
 def rollup_by_function(accum, x, func=None):
+    key=func(x)
     try:
-        key=func(x)
         accum[key]=accum[key]+1
     except KeyError:
         accum[key]=1
