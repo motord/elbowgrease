@@ -60,7 +60,7 @@ local events = {}
 local ids = redis.call('ZRANGE', KEYS[1], 0, -1)
 for i, id in ipairs(ids) do
     local event = redis.call('HMGET', 'event:' .. id, 'type', 'timestamp')
-    if event[1]==ARGV[3] then
+    if event[1]==ARGV[1] then
         events[i] = event[2]
     end
 end
