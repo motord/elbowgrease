@@ -7,7 +7,6 @@ from settings import settings
 import tornado.ioloop
 import tornado.web
 import json
-import tornado.gen
 
 
 class GreaseHandler(tornado.web.RequestHandler):
@@ -33,8 +32,7 @@ class HourHandler(tornado.web.RequestHandler):
 
 class WeekHandler(tornado.web.RequestHandler):
     def get(self):
-        response = yield tornado.gen.Task(week)
-        self.write(response)
+        return week()
 
 
 def make_app():
