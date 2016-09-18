@@ -131,3 +131,4 @@ def rollup_by_function(accum, x, func=None):
         accum[key]=accum[key]+1
     except KeyError:
         accum[key]=1
+    return accum
