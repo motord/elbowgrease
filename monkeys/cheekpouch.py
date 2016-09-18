@@ -11,6 +11,7 @@ import re
 import time
 from datetime import datetime
 import json
+from functools import partial, reduce
 
 browser = mechanicalsoup.Browser()
 
@@ -116,8 +117,17 @@ def twentyfour_seven():
 
 
 def week():
-    events_matching_type('aisex.newtorrent')
+    func=lambda e: datetime.fromtimestamp(float(e)).strftime('%A')
+    return reduce(partial(rollup_by_function(func=func), events_matching_type('aisex.newtorrent'),{}))
 
 
 def hour():
-    events_matching_type('aisex.newtorrent')
+    func=lambda e: datetime.fromtimestamp(float(e)).strftime('%k')
+    return reduce(partial(rollup_by_function(func=func), events_matching_type('aisex.newtorrent'),{}))
+
+def rollup_by_function(accum, x, func=None):
+    try:
+        key=func(x)
+        accum[key]=accum[key]+1
+    except KeyError:
+        accum[key]=1
