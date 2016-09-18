@@ -27,7 +27,7 @@ class TwentyFourSevenHandler(tornado.web.RequestHandler):
 
 class HourHandler(tornado.web.RequestHandler):
     def get(self):
-        return hour()
+        self.write(json.dumps(hour()))
 
 
 class WeekHandler(tornado.web.RequestHandler):
