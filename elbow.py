@@ -22,7 +22,7 @@ class GreaseHandler(tornado.web.RequestHandler):
 
 class TwentyFourSevenHandler(tornado.web.RequestHandler):
     def get(self):
-        self.write(json.dumps(twentyfour_seven()))
+        self.write(list(json.dumps(twentyfour_seven())))
 
 
 class HourHandler(tornado.web.RequestHandler):
