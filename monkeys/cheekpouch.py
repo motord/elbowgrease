@@ -106,7 +106,7 @@ def record_event(event):
 
 
 def twentyfour_seven():
-    events_matching_type_during(time.time()-86400*7, time.time(), 'aisex.newtorrent')
+    return events_matching_type_during(time.time()-86400*7, time.time(), 'aisex.newtorrent')
 
 
 def week():
