@@ -32,7 +32,7 @@ class HourHandler(tornado.web.RequestHandler):
 
 class WeekHandler(tornado.web.RequestHandler):
     def get(self):
-        return week()
+        self.write(json.dumps(week()))
 
 
 def make_app():
