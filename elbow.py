@@ -37,10 +37,10 @@ class WeekHandler(tornado.web.RequestHandler):
 
 def make_app():
     return tornado.web.Application([
-        (r"/grease", GreaseHandler),
         (r"/grease/168\.json", TwentyFourSevenHandler),
         (r"/grease/hour\.json", HourHandler),
         (r"/grease/week\.json", WeekHandler),
+        (r"/grease", GreaseHandler),
     ], **settings)
 
 
