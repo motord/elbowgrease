@@ -63,7 +63,7 @@
     $x("/html/body/div[@id='main-content']/table[@id='searchResult']/tbody/tr/td[2]/a").map(function (element) {
         if (localStorage.getItem(element.href) == undefined){
             localStorage.setItem(element.href,1);
-            element.style= 'background: hotpink;';
+            element.style= 'background: darkorange;';
         }
         else {
             localStorage.setItem(element.href,localStorage.getItem(element.href)+1);;
