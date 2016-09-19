@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <title>Charts — Vendetta</title>
-    <link rel="stylesheet" type="text/css" href="/applications/dashboard/design/style.css?v=2.2.112.3" media="all" />
-    <link rel="canonical" href="http://v.numag.net/index.php?p=/compose" />
-    <meta property="og:site_name" content="Vendetta" />
-    <meta property="og:title" itemprop="name" content="Articles Dashboard" />
-    <meta property="og:url" content="http://v.numag.net/index.php?p=/compose" />
+    <link rel="stylesheet" type="text/css" href="/applications/dashboard/design/style.css?v=2.2.112.3" media="all"/>
+    <link rel="canonical" href="http://v.numag.net/index.php?p=/compose"/>
+    <meta property="og:site_name" content="Vendetta"/>
+    <meta property="og:title" itemprop="name" content="Articles Dashboard"/>
+    <meta property="og:url" content="http://v.numag.net/index.php?p=/compose"/>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="/js/library/metricsgraphics.min.js?v=2.10.1" type="text/javascript"></script>
 </head>
@@ -16,12 +16,24 @@
         <div class="Row">
             <strong class="SiteTitle"><a href="/index.php?p=/">Vendetta</a></strong>
 
-            <div class="SiteSearch"><form method="get" action="/index.php">
-                <div>
+            <div class="SiteSearch">
+                <form method="get" action="/index.php">
+                    <div>
 
-                    <input type="hidden" name="p" value="/search" /><input type="text" id="Form_Search" name="Search" value="" placeholder="Search" accesskey="/" aria-label="Enter your search term." title="Enter your search term." class="InputBox" /><input type="submit" id="Form_Go" name="" value="Go" aria-label="Search" class="Button" />
-                </div>
-            </form></div>
+                        <input type="hidden" name="p" value="/search"/><input type="text" id="Form_Search" name="Search"
+                                                                              value="" placeholder="Search"
+                                                                              accesskey="/"
+                                                                              aria-label="Enter your search term."
+                                                                              title="Enter your search term."
+                                                                              class="InputBox"/><input type="submit"
+                                                                                                       id="Form_Go"
+                                                                                                       name=""
+                                                                                                       value="Go"
+                                                                                                       aria-label="Search"
+                                                                                                       class="Button"/>
+                    </div>
+                </form>
+            </div>
             <ul class="SiteMenu">
                 <!-- <li><a href="/index.php?p=/dashboard/settings" class="">Dashboard</a></li> -->
                 <li><a href="/index.php?p=/discussions" class="">Discussions</a></li>
@@ -37,39 +49,47 @@
     </div>
     <div id="Body">
         <div class="Row">
-            <div class="BreadcrumbsWrapper"><span class="Breadcrumbs" itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><span class="CrumbLabel CrumbLabel HomeCrumb Last"><a href="http://v.numag.net/index.php?p=/" itemprop="url"><span itemprop="title">Home</span></a></span> </span></div>
-            <div class="Column ContentColumn" id="Content"><div id="ArticlesDashboardWrap">
-                <h1 class="H">Articles Dashboard</h1>
+            <div class="BreadcrumbsWrapper"><span class="Breadcrumbs" itemscope
+                                                  itemtype="http://data-vocabulary.org/Breadcrumb"><span
+                    class="CrumbLabel CrumbLabel HomeCrumb Last"><a href="http://v.numag.net/index.php?p=/"
+                                                                    itemprop="url"><span
+                    itemprop="title">Home</span></a></span> </span></div>
+            <div class="Column ContentColumn" id="Content">
+                <div id="ArticlesDashboardWrap">
+                    <div id="scatter-168" class="">
 
-                <div class="RecentlyPublished">
-                    <h2>Recently Published</h2>
-                    <ul class="DataList">
-                        <li class="Item RecentlyPublishedArticle"><div><a href="http://v.numag.net/index.php?p=/article/2016/my-first-article">My First Article!</a></div><div class="Meta Meta-Article"><span class="MItem ArticleCategory"><a href="http://v.numag.net/index.php?p=/articles/category/uncategorized">Uncategorized</a></span><span class="MItem ArticleDate">19 September 2016 - 12:31 PM</span><span class="MItem ArticleAuthor"><a href="/index.php?p=/profile/articles/1/System">System</a></span></div></li>        </ul>
+                    </div>
                 </div>
-
-                <div class="RecentComments">
-                    <h2>Recent Comments</h2>
-                    <ul class="DataList">
-                        None.        </ul>
-                </div>
-
-                <div class="PendingArticles">
-                    <h2>Pending Articles</h2>
-                    <ul class="DataList">
-                        None.            </ul>
-                </div>
-            </div>
             </div>
         </div>
     </div>
     <div id="Foot">
         <div class="Row">
-            <a href="http://vanillaforums.org" class="PoweredByVanilla" title="Community Software by Vanilla Forums">Forum Software
+            <a href="http://vanillaforums.org" class="PoweredByVanilla" title="Community Software by Vanilla Forums">Forum
+                Software
                 Powered by Vanilla</a>
 
         </div>
     </div>
 </div>
-
+<script>
+    d3.json('grease/168.json', function (data) {
+        MG.data_graphic({
+            title: "24*7",
+            description: "This is an example of a simple scatterplot, in which we have enabled rug plots on the y-axis by setting the y_rug option to true.",
+            data: data,
+            chart_type: 'point',
+            width: 295,
+            height: 225,
+            right: 10,
+            target: '#scatter-168',
+            x_accessor: 'x',
+            y_accessor: 'y',
+            mouseover: function (d, i) {
+                console.log(d, i);
+            },
+            y_rug: true
+        });
+</script>
 </body>
 </html>
