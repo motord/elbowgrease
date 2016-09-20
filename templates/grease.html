@@ -75,7 +75,7 @@
 </div>
 <script>
     d3.json('grease/168.json', function (data) {
-        MG.convert.date(data, y, '%R');
+        MG.convert.date(data, 'y', '%R');
         MG.data_graphic({
             title: "24*7",
             data: data,
