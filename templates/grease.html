@@ -74,6 +74,15 @@
     </div>
 </div>
 <script>
+    function zeroFill( number, width )
+    {
+        width -= number.toString().length;
+        if ( width > 0 )
+        {
+            return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+        }
+        return number + ""; // always return a string
+    };
     d3.json('grease/168.json', function (data) {
         data=data.map(function(o){
             var time = o['y'].split(':');
@@ -90,6 +99,7 @@
             target: '#scatter-168',
             x_accessor: 'x',
             y_accessor: 'y',
+            yax_format: function(d){return [zeroFill(Math.floor(d), 2), zeroFill(Math.floor((d-Math.floor(d))*60),2)].join([separator = ':']);},
             mouseover: function (d, i) {
                 console.log(d, i);
             },
