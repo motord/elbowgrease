@@ -76,7 +76,7 @@
 <script>
     d3.json('grease/168.json', function (data) {
         data.sort(function compare(a, b) {
-            return a.y.localeCompare(b.y);
+            return -a.y.localeCompare(b.y);
         });
         MG.data_graphic({
             title: "24*7",
