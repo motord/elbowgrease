@@ -77,7 +77,7 @@
     d3.json('grease/168.json', function (data) {
         data=data.map(function(o){
             var time = o['y'].split(':');
-            var time = parseInt(time[0])+parseInt(time[1]);
+            var time = parseInt(time[0])+parseInt(time[1])/60;
             return {'x': o['x'], 'y':time};
         });
         MG.data_graphic({
