@@ -92,10 +92,9 @@ def spawn(url):
             torrent = {'status': 'OK', 'magnet': magnet, 'torrent': link}
             r.hmset(url, torrent)
             record_event({'type': 'aisex.newtorrent'})
-            return torrent
         except:
             torrent = {'status': 'ERROR', 'error': 'not a valid torrent file'}
-            return torrent
+        return torrent
 
 
 def record_event(event):
