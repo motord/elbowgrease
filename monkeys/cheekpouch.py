@@ -28,7 +28,7 @@ def download_torrent(url):
     return response.content
 
 
-r = redis.StrictRedis(host='localhost', port=6379, db=0, decode_responses=True)
+r = redis.StrictRedis(host='172.17.0.4', port=6379, db=0, decode_responses=True)
 
 
 def events_matching_type_during(start, end, type):

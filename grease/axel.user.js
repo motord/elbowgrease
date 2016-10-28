@@ -8,6 +8,7 @@
 // @description	        grab all episodes for axel download
 // @include		http://hyper.numag.net/*/
 // @include		http://amsterdam.hikerlink.org/youtube/*/
+// @include		http://riku.numag.net/youtube/*/
 // ==/UserScript==
 (function () {
     function $x() {
