@@ -66,7 +66,7 @@
             element.parentNode.style= 'background: darkorange;';
         }
         else {
-            localStorage.setItem(element.href,localStorage.getItem(element.href)+1);;
+            localStorage.setItem(element.href,parseInt(localStorage.getItem(element.href))+1);
         };
     });
 })();
